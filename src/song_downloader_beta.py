@@ -3,7 +3,7 @@ import os
 from bs4 import BeautifulSoup
 import urllib2
 import re
-import Tkinter
+import time
 query=raw_input("Input Movie Name : ")
 rename=query
 path = "E:\\Summertime Coding\\python\\mp3 downloader\\"+query+"\\"
@@ -49,14 +49,22 @@ def bit_1280(soup):
             output = open(s,'wb')
             downloaded_bytes = 0
             block_size = 1024*8
+            ctime=time.time()
+
             while True:
+
                 buffer = resource.read(block_size)
                 if not buffer:
                     break
                 output.write(buffer)
                 downloaded_bytes += block_size
                 p=float(downloaded_bytes)/float(file_size)*100
-                print "Downloaded %.2f %% \r" %p,
+                etime=time.time()-ctime
+                print "Downloaded %.2f %% " %p,
+                if(etime!=0):
+                    print "Downloading Speed: %0.2f kbps \r" %(float)(downloaded_bytes/(1024*etime)),
+                else:
+                    print "\r",
             if downloaded_bytes>=file_size:
                 print "Downloaded - 100% "
             output.close()
@@ -86,6 +94,7 @@ def bit_320(soup):
             output = open(s,'wb')
             downloaded_bytes = 0
             block_size = 1024*8
+            ctime=time.time()
             while True:
                 buffer = resource.read(block_size)
                 if not buffer:
@@ -93,7 +102,13 @@ def bit_320(soup):
                 output.write(buffer)
                 downloaded_bytes += block_size
                 p=float(downloaded_bytes)/float(file_size)*100
-                print "Downloaded %.2f %% \r" %p,
+                etime=time.time()-ctime
+                print "Downloaded %.2f %% " %p,
+                if(etime!=0):
+                    print "Downloading Speed: %0.2f kbps \r" %(float)(downloaded_bytes/(1024*etime)),
+                else:
+                    print "\r",
+
             if downloaded_bytes>=file_size:
                 print "Downloaded - 100% "
             output.close()
@@ -123,6 +138,7 @@ def bit_128(soup):
             output = open(s,'wb')
             downloaded_bytes = 0
             block_size = 1024*8
+            ctime=time.time()
             while True:
                 buffer = resource.read(block_size)
                 if not buffer:
@@ -130,7 +146,13 @@ def bit_128(soup):
                 output.write(buffer)
                 downloaded_bytes += block_size
                 p=float(downloaded_bytes)/float(file_size)*100
-                print "Downloaded %.2f %% \r" %p,
+                etime=time.time()-ctime
+                print "Downloaded %.2f %% " %p,
+                if(etime!=0):
+                    print "Downloading Speed: %0.2f kbps \r" %(float)(downloaded_bytes/(1024*etime)),
+                else:
+                    print "\r",
+
             if downloaded_bytes>=file_size:
                 print "Downloaded - 100% "
             output.close()
