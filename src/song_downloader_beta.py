@@ -4,9 +4,10 @@ from bs4 import BeautifulSoup
 import urllib2
 import re
 import time
-query=raw_input("Input Movie Name : ")
+query=raw_input("Enter Any Movie Name : ")
+print "\n"
 rename=query
-path = "E:\\Summertime Coding\\python\\mp3 downloader\\"+query+"\\"
+path = "E:\\Shashi\\mp3 downloader\\"+query+"\\"
 query=query+" songs.pk"
 query = re.sub(r"\s+", '+', query)
 url="https://www.google.co.in/search?client=opera&q="+query+"&sourceid=opera&ie=UTF-8&oe=UTF-8"
@@ -33,7 +34,7 @@ def bit_1280(soup):
             global downloaded
             downloaded=1;
             global c
-            print "Requesting Download : ", hy
+            print "\nRequesting Download : ", hy
             headers = { 'User-Agent' : 'Mozilla/5.0' }
             down = urllib2.Request(hy, None, headers)
             resource = urllib2.urlopen(down)
@@ -42,7 +43,7 @@ def bit_1280(soup):
             if not os.path.exists(path):
                 os.makedirs(path)
             s = os.path.join(path, s)
-            print "Downloading Starts, Saving {0}.mp3 to location : {1}".format(name,s)
+            print "Downloading Starts, Saving {0} to location : {1} ".format(name,s)
             meta = resource.info()
             file_size = int(meta.getheaders("Content-Length")[0])
             print("Total Bytes: {0}".format(file_size))
@@ -72,12 +73,12 @@ def bit_1280(soup):
 def bit_320(soup):
     for link in soup.find_all('a'):
         hy=link.get('href')
-        if(hy is not None and hy.find("/320/")!=-1 and hy.find("mp3")!=-1):
+        if(hy is not None and hy.find("320")!=-1 and hy.find("mp3")!=-1) or  (hy is not None and hy.find("320")!=-1 and hy.find("songid")!=-1):
             global downloaded
             global c
             downloaded=2;
             hy = re.sub(r"\s+", '%20', hy)
-            print "Requesting Download : ", hy
+            print "\nRequesting Download : ", hy
 
             headers = { 'User-Agent' : 'Mozilla/5.0' }
             down = urllib2.Request(hy, None, headers)
@@ -87,7 +88,7 @@ def bit_320(soup):
             if not os.path.exists(path):
                 os.makedirs(path)
             s = os.path.join(path, s)
-            print "Downloading Starts, Saving {0}.mp3 to location : {1}".format(name,s)
+            print "Downloading Starts, Saving {0} to location : {1} ".format(name,s)
             meta = resource.info()
             file_size = int(meta.getheaders("Content-Length")[0])
             print("Total Bytes: {0}".format(file_size))
@@ -117,12 +118,12 @@ def bit_320(soup):
 def bit_128(soup):
     for link in soup.find_all('a'):
         hy=link.get('href')
-        if(hy is not None and hy.find("/180/")!=-1) and hy.find("mp3")!=-1:
+        if(hy is not None and hy.find("128")!=-1 and hy.find("mp3")!=-1):
             hy = re.sub(r"\s+", '%20', hy)
             global downloaded
             global c
             downloaded=3;
-            print "Requesting Download : ", hy
+            print "\nRequesting Download : ", hy
             headers = { 'User-Agent' : 'Mozilla/5.0' }
             down = urllib2.Request(hy, None, headers)
             resource = urllib2.urlopen(down)
@@ -131,7 +132,7 @@ def bit_128(soup):
             if not os.path.exists(path):
                 os.makedirs(path)
             s = os.path.join(path, s)
-            print "Downloading Starts, Saving {0}.mp3 to location : {1}".format(name,s)
+            print "Downloading Starts, Saving {0} to location : {1} ".format(name,s)
             meta = resource.info()
             file_size = int(meta.getheaders("Content-Length")[0])
             print("Total Bytes: {0}".format(file_size))
@@ -158,13 +159,17 @@ def bit_128(soup):
             output.close()
             c+=1
 
-if downloaded==0:
-    bit_1280(soup)
+
+
 if downloaded==0:
     bit_320(soup)
+if downloaded==0:
+    bit_1280(soup)
 if downloaded==0:
     bit_128(soup)
 if downloaded==0:
     print "\n Sorry Couldn't Find Album Try Something Else"
 else :
     print "\n Congrats Album Download Completed"
+while True:
+    time.sleep(100)
